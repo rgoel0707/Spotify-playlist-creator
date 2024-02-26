@@ -1,40 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import './Spc.css';
+import Login from './login';
+import Navigate from './Navigation';
 
 
-const getAccessToken = async () => {
-  const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
-  // header paremeter
-  const config = {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    }
-  }
-  // request body parameter
-  const data = {
-    grant_type: 'client_credentials',
-    client_id: '68454f854adb49db969d4c7cc8dde421',
-    client_secret: 'bd661f27335540d2a793b65f28aad834',
-  }
-
-  const response = await axios.post(TOKEN_ENDPOINT, data, config)
-  return response.data.access_token;
-};
-
-const accessToken = await getAccessToken();
-
-function App() {
+export default function PlaylistCreator() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedSongs, setSelectedSongs] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
 
   // Function to search for songs
   const searchSongs = async () => {
-    const config={
+    const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       }
@@ -53,51 +34,67 @@ function App() {
   };
 
   const removeSongFromList = (songid) => {
-    setSelectedSongs(prev=>prev.filter(t=>t.id!==songid));
+    setSelectedSongs(prev => prev.filter(t => t.id !== songid));
   };
 
   const savetoplaylist = (e) => {
-
-    document.getElementById('saveBtn').innerText='Saved';
+    document.getElementById('saveBtn').innerText = 'Saved';
   }
 
   return (
     <div>
-      <h1>Spotify Song Selector</h1>
-      <div>
-        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-        <br/>
-        <br/>
-        <button onClick={searchSongs}>Search</button>
+      <div className="about-me-bg-1"></div>
+      <div className="about-me-bg-2"></div>
+      <Navigate />
+      <div className='page-container'>
+        <p className='page-name'>Spotify Playlist Creator</p>
+        <div className='spc-page'>
+          <Login accessToken={accessToken} setAccessToken={setAccessToken} />
+          {accessToken && (
+            <div className='spc-page-div'>
+              <div className='top-div'>
+                <div className='next-div'>
+                  <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder='Enter search term' className='text-entry' id='song-searchbar' />
+                  <button onClick={searchSongs} className='spc-button'>Search</button>
+                </div>
+                <div className='lvl-2-div'>
+                  <p className='spc-header'>Top Matches</p>
+                  {searchResults.map((song) => (
+                    <div className='song-div' key={song.id}>
+                      <div className='song-details'>
+                        <p className='song-name' >{song.name}</p>
+                        <p className='artist'> by {song.artists[0].name}</p>
+                      </div>
+                      <button className='add-btn' onClick={() => addSongToList(song)}>+</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className='top-div'>
+                <div className='next-div'>
+                  <input type='text' value={playlistName} onChange={(e) => setPlaylistName(e.target.value)} name='playlist_name' placeholder='Playlist name' className='text-entry' id='playlist-name' />
+                  <button id='saveBtn' className='spc-button' onClick={savetoplaylist}>Create Playlist</button>
+                  <div className='lvl-2-div'>
+                    <p className='spc-header'>Selected songs</p>
+                    {selectedSongs.map((song) => (
+                      <div className='song-div' key={song.id}>
+                        <div className='song-details'>
+                          <p className='song-name' >{song.name}</p>
+                          <p className='artist'> by {song.artists[0].name}</p>
+                        </div>
+                        <button className='add-btn' onClick={() => removeSongFromList(song.id)}>-</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <div>
-        <h2>Search Results</h2>
-        <ul>
-          {searchResults.map((song) => (
-            <li key={song.id}>
-              {song.name} by {song.artists[0].name}{'  '}
-              <button onClick={() => addSongToList(song)}>Add</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h2>Selected Songs</h2>
-        <label for='playlist_name'>Enter a name for your playlist</label>
-        <br/>
-        <input type='text' value={playlistName} onChange={(e)=> setPlaylistName(e.target.value)} name='playlist_name' placeholder='Playlist name'/>
-        <ul>
-          {selectedSongs.map((song) => (
-            <li key={song.id}>
-              {song.name} by {song.artists[0].name}{'  '}
-              <button onClick={() => removeSongFromList(song.id)}>Remove</button>
-            </li>
-          ))}
-        </ul>
-        <button id='saveBtn' onClick={savetoplaylist}>Add to my Spotify</button>
-      </div>
+      <footer>
+        <p>&copy; 2024 Rishabh Goel. All rights reserved. V1.1</p>
+      </footer>
     </div>
   );
 }
-
-export default App;
