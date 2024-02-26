@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.about-me-bg-2 {
+  background-image: url('../public/page-bg.svg');
+  background-size: contain;
+  background-position: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  opacity: .4;
+}
