@@ -186,7 +186,10 @@ footer {
 
 .spc-page {
   color: white;
+  width: 75%;
+  margin: 0 auto;
 }
+
 
 .logged-out-div {
   width: 40%;
@@ -229,12 +232,13 @@ footer {
   border: 0;
   border-radius: 16px;
   padding: 16px;
-  margin: 16px;
+  margin-top: 16px;
 }
 
 .next-div {
   display: flex;
   flex-direction: column;
+  margin-top: 16px;
 }
 
 #song-searchbar {
@@ -335,4 +339,7 @@ footer {
   .navbar-menu .nav-link{
     color: #071226;
   }
+  .spc-page {
+    width: 95%;}
+
 }
