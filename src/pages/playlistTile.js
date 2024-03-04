@@ -2,7 +2,7 @@ import React from "react";
 
 export default function PlaylistTile({playlistName, setPlaylistName, savetoplaylist,selectedSongs,removeSongFromList}) {
   return (
-    <div className='top-div'>
+    <div className='top-div' id="playlist-tile">
       <div className='next-div'>
         <input type='text' value={playlistName} onChange={(e) => setPlaylistName(e.target.value)} name='playlist_name' placeholder='Playlist name' className='text-entry' id='playlist-name' />
         <button id='saveBtn' className='spc-button' onClick={savetoplaylist}>Create Playlist</button>
