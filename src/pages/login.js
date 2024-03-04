@@ -23,7 +23,7 @@ export default function Login({ accessToken, setAccessToken, user, getName }) {
       }
     };
     getAccessTokenFromUrl();
-  }, [setAccessToken]);
+  }, [setAccessToken, getName]);
 
   const loginFlow = () => {
     const clientId = spotify_client_id;
