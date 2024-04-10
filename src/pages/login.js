@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { spotify_client_id } from "../keys";
 
 export default function Login({ accessToken, setAccessToken, user, getName }) {
 
@@ -26,7 +25,7 @@ export default function Login({ accessToken, setAccessToken, user, getName }) {
   }, [setAccessToken, getName]);
 
   const loginFlow = () => {
-    const clientId = spotify_client_id;
+    const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
     const redirectUri = window.location.href.includes('localhost')? 'http://localhost:3000/':'https://manage-spotify.netlify.app/';
     const scopes = ['user-read-private', 'user-read-email', 'playlist-modify-public'];
     const authEndpoint = 'https://accounts.spotify.com/authorize';
